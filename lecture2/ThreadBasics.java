@@ -9,20 +9,16 @@ public class ThreadBasics {
         Runnable b = new Worker("b");
         Runnable c = new Worker("c");
 
-        Thread t1 = new Thread(a, "worker-a");
-        Thread t2 = new Thread(b, "worker-b");
-        Thread t3 = new Thread(c, "worker-c");
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
 
-        t1.start();
-        
-        t2.start();
-        t3.start();
+        executorService.execute(a);
+        executorService.execute(b);
+        executorService.execute(c);
 
-        t1.join();
-        t2.join();
-        t3.join();
-        
-        
+        executorService.shutdown();
+
+        executorService.awaitTermination(10, TimeUnit.SECONDS);
+
         System.out.println("All workers finished!");
     }
 }
